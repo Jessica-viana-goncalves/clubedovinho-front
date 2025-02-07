@@ -1,64 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagamento</title>
+    <title>Confirmar Compra</title>
 
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/custom.css">
-</head>
 
-<body class="container pt-5">
-    <div class="row">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+</head>
+<body class="container">
+    <div class="row mt-5">
+
+        <div class="col-md-10 offset-md-1">
+
+            <h1 class="animate__animated animate__fadeInLeft">Pagamento</h1>
+
+        </div>
+        
         <div class="col-md-5 offset-md-1">
-            
+
+
             <div class="card card-body">
                 <form action="">
-                    <label for="">Número</label> 
-                    <input onkeyup="preencherNumero()" id="card_numero" type="text" class="form-control form-control-lg mb-3" placeholder="1234 1234 1234 1234">
+                    <label for="card_numero">Número do Cartão</label>
+                    <input maxlength="19" onkeyup="preencherNumero()" id="card_numero" type="text" class="form-control form-control-lg mb-3" placeholder="1234 1234 1231 1234" maxlength="19">
 
-                    <label for="">Nome do Titular</label> 
-                    <input id="card_titular" type="text" class="form-control form-control-lg mb-3" placeholder="Francisco S Silva">
+                    <label for="card_titular">Nome do Titular</label>
+                    <input onkeyup="preencherTitular()" id="card_titular" type="text" class="form-control form-control-lg mb-3" placeholder="Francisco A F Silva">
 
                     <div class="row">
                         <div class="col">
-                            <label for="">CVV</label> 
-                            <input id="card_cvv" type="text" class="form-control form-control-lg mb-3" placeholder="000"> 
+                            <label for="card_cvv">CVV</label>
+                            <input onblur="mostrarFrente()"  onfocus="mostrarVerso()" onkeyup="preencherCVV()" maxlength="3" id="card_cvv" type="text" class="form-control form-control-lg mb-3" placeholder="123" maxlength="4">
                         </div>
-
                         <div class="col">
-                            <label for="">Mês</label> 
-                            <select onchange="preencherMes" id="card_mes" class="form-select form-select-lg mb-3"> <option value="">-- Selecione -- </option>
+                            <label for="card_mes">Mês</label>
+                            <select onchange="selecionarMes()" id="card_mes" class="form-select form-select-lg mb-3">
+                                <option value="">-- Selecione --</option>
                             </select>
                         </div>
-
                         <div class="col">
-                            <label for="">Ano</label> 
-                           <select onchange="preencherAno" id="card_ano" class="form-select form-select-lg mb-3"> <option value="">-- Selecione -- </option>
+                            <label for="card_ano">Ano</label>
+                            <select onchange="selecionarAno()" id="card_ano" class="form-select form-select-lg mb-3">
+                                <option value="">-- Selecione --</option>
                             </select>
-
                         </div>
                     </div>
-  
 
-                    <button class="btn btn-success w-100">Pronto</button>
-
+                    <button class="btn btn-success w-100">PRONTO</button>
                 </form>
             </div>
         </div>
-
+        
         <div class="col-md-4">
-            <div style="height: 250px;" class="card card-body bg-dark">
-                <img width="50px" src="imagens/Visa-Logo-PNG.png" alt="">
-                <!--<img width="50px" src="imagens/master.png" alt="">-->
+            <div style="height: 250px;" id="cartao_frente" class="card card-body bg-dark">
+                <div>
+                    <img id="bandeira_visa" class="bandeira" src="imagens/Visa-Logo-PNG.png" alt="Visa" width="50px" style="display:none;">
+                    <img id="bandeira_mastercard" class="bandeira" src="imagens/master.png" alt="Mastercard" width="50px" style="display:none;">
+                </div>
 
                 <div class="text-end mt-5">
-                    <img src="imagens/chip.png" width="50" alt="">
-    
+                    <img src="imagens/chipcartao-removebg-preview.png" width="50" alt="Chip do Cartão">
                 </div>
 
                 <div class="text-light">
@@ -66,21 +74,19 @@
                     <br>
                     <span id="resultado_titular">FULANO DE TAL</span>
                     <br>
-                    <span id="resultado_mes">MM</span>
-                    /
-                    <span id="resultado_ano" >YYYY</span>
+                    <span id="resultado_mes">MM</span> /
+                    <span id="resultado_ano">YYYY</span>
                 </div>
-                
-                
-            </div> 
+            </div>
 
+            <div style="height: 250px; display: none;" id="cartao_verso" class="card card-body bg-dark text-light">
+                    <span id="resultado_cvv">CVV:</span>
+
+            </div>
         </div>
-
     </div>
-    <script src="pagamento.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-</body>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="pagamento.js"></script>
+</body>
 </html>
